@@ -7,7 +7,7 @@ import org.ganapati.project.ecommerce.config.JwtRequestContext;
 import org.ganapati.project.ecommerce.dto.AdminUserRequest;
 import org.ganapati.project.ecommerce.dto.UserRequest;
 import org.ganapati.project.ecommerce.dto.UserResponse;
-import org.ganapati.project.ecommerce.enums.Role_Type;
+import org.ganapati.project.ecommerce.enums.RoleType;
 import org.ganapati.project.ecommerce.entity.Roles;
 import org.ganapati.project.ecommerce.entity.User;
 import org.ganapati.project.ecommerce.exception.ValidationException;
@@ -15,36 +15,41 @@ import org.ganapati.project.ecommerce.mapper.UserMapper;
 import org.ganapati.project.ecommerce.repository.RolesRepository;
 import org.ganapati.project.ecommerce.repository.UserRepository;
 import org.ganapati.project.ecommerce.util.CommonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RolesRepository rolesRepository;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtRequestContext jwtRequestContext;
 
-    @Autowired
-    private CommonService commonService;
+    private final UserRepository userRepository;
+
+    private final RolesRepository rolesRepository;
+
+    private final UserMapper userMapper;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final JwtRequestContext jwtRequestContext;
+
+
+    private final CommonService commonService;
+    private final CacheService cacheService;
+
+    public UserServiceImpl(UserRepository userRepository, RolesRepository rolesRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, JwtRequestContext jwtRequestContext, CommonService commonService, CacheService cacheService) {
+        this.userRepository = userRepository;
+        this.rolesRepository = rolesRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtRequestContext = jwtRequestContext;
+        this.commonService = commonService;
+        this.cacheService = cacheService;
+    }
 
     @Override
     public BaseResponse<UserResponse> registerUser(UserRequest request) {
         // 2. Create User
-        Optional<User> existUser = userRepository.findByEmail(request.getEmail());
-        if (existUser.isPresent()) {
-            throw new ValidationException(1005, "user already found..!", "user already found..!");
-        }
+        commonService.userAlreadyExist(request.getEmail());
         User user = new User();
         user.setMobileNo(request.getMobileNo());
         user.setName(request.getName());
@@ -58,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
         // 3. Assign Role
         Roles role = new Roles();
-        role.setRole(Role_Type.USER);
+        role.setRole(RoleType.USER);
         role.setUser(savedUser);
         role.setStatus(true);
         rolesRepository.save(role);
@@ -80,10 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse<UserResponse> createAdminUser(AdminUserRequest request) {
         log.info("AdminUserRequest : {} ", request);
-        Optional<User> existUser = userRepository.findByEmail(request.getEmail());
-        if (existUser.isPresent()) {
-            throw new ValidationException(1005, "user already found..!", "user already found..!");
-        }
+        commonService.userAlreadyExist(request.getEmail());
         User user = new User();
         user.setMobileNo(request.getMobileNo());
         user.setName(request.getName());
@@ -95,7 +97,7 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         // 3. Assign Role
         Roles role = new Roles();
-        role.setRole(Role_Type.valueOf(request.getRole()));
+        role.setRole(RoleType.valueOf(request.getRole()));
         role.setUser(savedUser);
         role.setStatus(true);
         rolesRepository.save(role);
@@ -108,6 +110,12 @@ public class UserServiceImpl implements UserService {
         baseResponse.setData(userResponse);
         baseResponse.setResult(result);
         return baseResponse;
+    }
+
+    public BaseResponse<UserResponse> getUserEmail(String email) {
+        User user = cacheService.findUserByEmail(email);
+        UserResponse userResponse = userMapper.entityToUser(user);
+        return BaseResponse.success(userResponse);
     }
 
     @Override
@@ -135,7 +143,7 @@ public class UserServiceImpl implements UserService {
         if (request.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
-        User savedUser = userRepository.save(user);
+        User savedUser = commonService.updateUser(user);
         UserResponse userResponse = userMapper.entityToUser(savedUser);
         Result result = new Result();
         result.setSuccessCode(0);
@@ -160,7 +168,7 @@ public class UserServiceImpl implements UserService {
         //editing or making deactive user
         user.setStatus(false);
         //save existing user object
-        userRepository.save(user);
+        commonService.updateUser(user);
         //setting response
         Result result = new Result();
         result.setSuccessCode(0);

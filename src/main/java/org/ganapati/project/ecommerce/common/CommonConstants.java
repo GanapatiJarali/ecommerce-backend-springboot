@@ -7,4 +7,5 @@ public class CommonConstants {
     public static final int SUCCESS_CODE = 0;
     public static final String ORDER_ID_INITIAL = "ECOM-ORD";
     public static final String HYPEN = "-";
+    public static final String CATEGORY_KEY_VALUE = "categories";
 }

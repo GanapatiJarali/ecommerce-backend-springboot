@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +31,5 @@ public class User extends BaseEntity {
     private LocalDate dateOfBirth;
 
     private boolean status;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonIgnore
-//    @ToString.Exclude
-    private List<Roles> roles;
 }
 

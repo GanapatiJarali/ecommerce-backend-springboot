@@ -9,12 +9,10 @@ import org.ganapati.project.ecommerce.entity.Roles;
 import org.ganapati.project.ecommerce.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,20 +29,12 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
     }
 
-    public String generateToken(User user) {
-        log.info("generateToken user: Roles: {}", user.getRoles()
-                .stream()
-                .map(Roles::getRole)
-                .collect(Collectors.toList()));
+    public String generateToken(User user, List<Roles> rolesList) {
+        log.info("generateToken user: Roles: {}", rolesList.stream().map(Roles::getRole).collect(Collectors.toList()));
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getEmail());
         claims.put("mobileNo", user.getMobileNo());
-        claims.put("roles",
-                user.getRoles()
-                        .stream()
-                        .map(Roles::getRole)
-                        .collect(Collectors.toList()));
-
+        claims.put("roles", rolesList.stream().map(Roles::getRole).collect(Collectors.toList()));
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("ecommerce-auth-service")

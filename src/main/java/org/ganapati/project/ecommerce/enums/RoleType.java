@@ -1,13 +1,13 @@
 package org.ganapati.project.ecommerce.enums;
 
-public enum Role_Type {
+public enum RoleType {
     ADMIN("ADMIN"),
     USER("USER"),
     SUPER_ADMIN("SUPER_ADMIN");
 
     private String role;
 
-    Role_Type(String role) {
+    RoleType(String role) {
         this.role = role;
     }
 }

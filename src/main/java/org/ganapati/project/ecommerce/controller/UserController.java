@@ -7,6 +7,7 @@ import org.ganapati.project.ecommerce.dto.UserRequest;
 import org.ganapati.project.ecommerce.dto.UserResponse;
 import org.ganapati.project.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,10 @@ public class UserController {
     @PostMapping("/admin/register")
     public ResponseEntity<BaseResponse<UserResponse>> createAdminUser(@RequestBody AdminUserRequest request) {
         return ResponseEntity.ok(userService.createAdminUser(request));
+    }
+
+    public ResponseEntity<BaseResponse<UserResponse>> getUserByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(userService.getUserEmail(email), HttpStatus.OK);
     }
 
     @PutMapping("/users")

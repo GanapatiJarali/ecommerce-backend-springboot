@@ -2,17 +2,19 @@ package org.ganapati.project.ecommerce.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.ganapati.project.ecommerce.enums.Role_Type;
+import org.ganapati.project.ecommerce.enums.RoleType;
+
+import java.io.Serializable;
 
 @Entity
 @Data
-public class Roles {
+public class Roles implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name="role")
-    private Role_Type role;
+    private RoleType role;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
 //    @ToString.Exclude

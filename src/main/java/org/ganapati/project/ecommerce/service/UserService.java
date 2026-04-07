@@ -7,7 +7,12 @@ import org.ganapati.project.ecommerce.dto.UserResponse;
 
 public interface UserService {
     BaseResponse<UserResponse> registerUser(UserRequest request);
-    BaseResponse<UserResponse> createAdminUser( AdminUserRequest request);
+
+    BaseResponse<UserResponse> createAdminUser(AdminUserRequest request);
+
+    BaseResponse<UserResponse> getUserEmail(String email);
+
     BaseResponse<UserResponse> updateUser(UserRequest request);
+
     BaseResponse softDeleteUser(String email);
 }

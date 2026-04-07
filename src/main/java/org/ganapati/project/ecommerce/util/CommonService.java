@@ -6,8 +6,12 @@ import org.ganapati.project.ecommerce.exception.ValidationException;
 
 import org.ganapati.project.ecommerce.entity.*;
 import org.ganapati.project.ecommerce.repository.*;
+import org.ganapati.project.ecommerce.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,23 +19,50 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class CommonService {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+
+    private final ProductRepository productRepository;
+
+
+    private final CartRepository cartRepository;
+
+
+    private final AddressRepository addressRepository;
+
+
+    private final OrderRepository orderRepository;
+
+    private final CacheService cacheService;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
+    public CommonService(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository, AddressRepository addressRepository, OrderRepository orderRepository, CacheService cacheService) {
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.cartRepository = cartRepository;
+        this.addressRepository = addressRepository;
+        this.orderRepository = orderRepository;
+        this.cacheService = cacheService;
+    }
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new ValidationException(1005, "user not found..!", "user not found..!"));
+    }
+
+
+    public void userAlreadyExist(String email) {
+        log.info("user fetching from DB: {} ", email);
+        User user = cacheService.findUserByEmail(email);
+        if (!ObjectUtils.isEmpty(user)) {
+            throw new ValidationException(1005, "user already  found..!", "user already found..!");
+        }
+    }
+
+    @CachePut(value = "user", key = "#user.email", unless = "#result==null")
+    public User updateUser(User user) {
+        log.info("user update:{} ", user);
+        return cacheService.updateUser(user);
     }
 
     public Product findProductByProductId(Long productId) {
