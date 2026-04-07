@@ -10,10 +10,10 @@
     </parent>
 
 
-    <groupId>com.jtspringproject</groupId>
-    <artifactId>JtSpringProject</artifactId>
+    <groupId>com.springproject</groupId>
+    <artifactId>SpringProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>JtSpringProject</name>
+    <name>ecommerce-backend-spring-boot-project</name>
     <description>Spring project for Java Technology</description>
     <properties>
         <java.version>21</java.version>
@@ -48,11 +48,6 @@
         </dependency>
 
         <!-- JWT -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -98,6 +93,10 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>1.5.5.Final</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->

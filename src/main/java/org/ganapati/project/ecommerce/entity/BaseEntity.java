@@ -1,0 +1,20 @@
+package org.ganapati.project.ecommerce.entity;
+
+import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Data
+@MappedSuperclass
+public class BaseEntity implements Serializable {
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
+    private String createdBy;
+    private String updateBy;
+}
