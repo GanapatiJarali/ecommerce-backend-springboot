@@ -18,7 +18,7 @@ public class AddressController {
     private final AddressService addressService;
 
     // Add address for user
-    @PostMapping("/user")
+    @PostMapping
     public ResponseEntity<AddressResponse> addAddress(
             @RequestBody AddressRequest request
     ) {
@@ -26,7 +26,7 @@ public class AddressController {
     }
 
     // Get all addresses of user
-    @GetMapping("/user")
+    @GetMapping
     public ResponseEntity<BaseResponse<PageResponse<AddressResponse>>> fetchAllAddressesByUser(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
 
         return ResponseEntity.ok(addressService.getAddressesByUser(page, size));

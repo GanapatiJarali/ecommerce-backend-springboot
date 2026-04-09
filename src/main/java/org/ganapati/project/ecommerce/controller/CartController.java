@@ -21,7 +21,7 @@ public class CartController {
     }
 
     //  Get all carts by userEmail
-    @GetMapping("/user")
+    @GetMapping
     public ResponseEntity<BaseResponse<CartResponse>> getCartsByUserEmail(
             @RequestParam(defaultValue = "0", name = "page") int page, @RequestParam(defaultValue = "5", name = "size") int size
     ) {

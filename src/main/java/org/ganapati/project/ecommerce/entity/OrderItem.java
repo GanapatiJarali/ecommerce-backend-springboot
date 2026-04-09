@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ganapati.project.ecommerce.enums.OrderItemStatus;
 
 import java.math.BigDecimal;
 
@@ -13,15 +14,14 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
+public class OrderItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String orderItemId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
+    private Long orderId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
@@ -29,6 +29,10 @@ public class OrderItem {
 
     private Integer quantity;
 
-    private BigDecimal price;   // snapshot price
+    private BigDecimal price;   // specific product price
     private BigDecimal totalPrice;
+
+    private String reason;// cancel or return
+    @Enumerated(EnumType.STRING)
+    private OrderItemStatus status;
 }

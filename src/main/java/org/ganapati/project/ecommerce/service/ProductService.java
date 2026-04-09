@@ -9,6 +9,7 @@ public interface ProductService {
      BaseResponse<ProductResponse> addProduct(ProductRequest product);
     public BaseResponse<PageResponse<ProductResponse>> getAllProducts(int page, int size, Integer category, Boolean status);
     BaseResponse<ProductResponse> fetchByProductId(Long id);
+    BaseResponse<ProductResponse> fetchByProductCode(String productCode);
     BaseResponse<ProductResponse> updateProduct(ProductRequest product);
 
 }

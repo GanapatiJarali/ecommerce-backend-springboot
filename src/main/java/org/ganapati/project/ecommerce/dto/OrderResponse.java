@@ -2,7 +2,7 @@ package org.ganapati.project.ecommerce.dto;
 
 
 import lombok.*;
-import org.ganapati.project.ecommerce.enums.OrderStatus;
+import org.ganapati.project.ecommerce.enums.OrderItemStatus;
 import org.ganapati.project.ecommerce.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -18,9 +18,8 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class OrderResponse {
 
-    private String orderId;
+    private String orderGroupId;
     private BigDecimal totalAmount;
-    private OrderStatus status;
     private PaymentStatus paymentStatus;
     private LocalDateTime orderDate;
     private String paymentMode;
