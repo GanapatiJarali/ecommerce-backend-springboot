@@ -42,5 +42,4 @@ public class Order extends BaseEntity {
 
     private String paymentMode; // COD, UPI, CARD
 
-
 }

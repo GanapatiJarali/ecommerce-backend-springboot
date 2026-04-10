@@ -60,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public BaseResponse<OrderResponse> placeOrder(OrderRequest orderRequest) {
+        //take the email from the jwt
         String email = jwtRequestContext.getEmail();
         User user = commonService.findByEmail(email);
         //Validation correct customer and correct user
@@ -93,7 +94,6 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemResponse> orderItemResponses = new ArrayList<>();
 
         for (OrderItemRequest item : orderRequest.getItems()) {
-
 //          Product product = commonService.findProductByProductId(item.getProductId());
             Product product = productMap.get(item.getProductId());
             BigDecimal price = BigDecimal.valueOf(product.getPrice());
@@ -124,8 +124,9 @@ public class OrderServiceImpl implements OrderService {
             response.setTotalPrice(itemTotal);
             orderItemResponses.add(response);
         }
-
+        //save the items
         orderItemRepository.saveAll(orderItemList);
+        //update product table
         productRepository.saveAll(productMap.values());
         //  Prepare Response
         OrderResponse orderResponse = new OrderResponse();
@@ -158,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse<OrderResponse> getOrdersById(String orderGroupId) {
         String email = jwtRequestContext.getEmail();
         User user = commonService.findByEmail(email);
-        Order order = commonService.fetchOrderByOrderIdAndUser(orderGroupId, user).orElseThrow(() -> new ValidationException(5010, "Order Not Found ", "Order Not Found "));
+        Order order = commonService.fetchOrderByOrderGroupIdAndUser(orderGroupId, user).orElseThrow(() -> new ValidationException(5010, "Order Not Found ", "Order Not Found "));
         log.info("order: {} ", order);
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setOrderGroupId(order.getOrderGroupId());

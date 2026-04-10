@@ -83,7 +83,7 @@ public class CommonService {
         return addressRepository.findById(addressId).orElseThrow(() -> new ValidationException(4000, "Address not found..!", "Address not found..!"));
     }
 
-    public Optional<Order> fetchOrderByOrderIdAndUser(String orderId, User user) {
+    public Optional<Order> fetchOrderByOrderGroupIdAndUser(String orderId, User user) {
         return orderRepository.findByOrderGroupIdAndUser(orderId, user);
     }
 
@@ -108,5 +108,9 @@ public class CommonService {
 
     public List<Order> fetchOrderByUserId(Long userId) {
         return orderRepository.findByUser_Id(userId);
+    }
+
+    public Optional<Order> fetchOrderByOrderGroupId(String orderGroupId) {
+        return orderRepository.findByOrderGroupId(orderGroupId);
     }
 }

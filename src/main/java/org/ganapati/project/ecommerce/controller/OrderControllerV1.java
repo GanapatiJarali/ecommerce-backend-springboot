@@ -5,13 +5,10 @@ import org.ganapati.project.ecommerce.common.BaseResponse;
 import org.ganapati.project.ecommerce.dto.OrderItemResponse;
 import org.ganapati.project.ecommerce.dto.OrderUpdateStatusRequest;
 import org.ganapati.project.ecommerce.dto.PageResponse;
-import org.ganapati.project.ecommerce.entity.OrderItem;
 import org.ganapati.project.ecommerce.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api/admin")
