@@ -55,10 +55,14 @@ public class ProductServiceImpl implements ProductService {
         commonService.roleAccessValidation(addProductRoles, jwtRoles);
         productRequest.setName(productRequest.getName().toLowerCase());
         log.info("Product name:: {} ", productRequest.getName());
-        Optional<Product> productOptional = productRepository.findByName(productRequest.getName().toLowerCase());
-        log.error("Product  :{} ", productOptional);
-        if (productOptional.isPresent()) {
-            Product existProduct = productOptional.get();
+        Optional<Product> productNameOptional = productRepository.findByName(productRequest.getName().toLowerCase());
+        Optional<Product> productCodeOptional = productRepository.findByProductCode(productRequest.getProductCode());
+        log.error("Product  :{} ", productNameOptional);
+        if (productCodeOptional.isPresent() && productNameOptional.isPresent() && !productNameOptional.get().getId().equals(productCodeOptional.get().getId())) {
+            throw new ValidationException(1011, "Product code already exists for another product", "Product code already exists for another product");
+        }
+        if (productCodeOptional.isPresent()) {
+            Product existProduct = productCodeOptional.get();
             existProduct.setStock(existProduct.getStock() + productRequest.getStock());
             Product existProductSaved = productRepository.save(existProduct);
             ProductResponse productResponse = productMapper.productToProductRes(existProductSaved);
@@ -116,6 +120,16 @@ public class ProductServiceImpl implements ProductService {
         baseResponse.setData(productMapper.productToProductRes(product));
         baseResponse.setResult(response);
         return baseResponse;
+    }
+
+    @Override
+    public BaseResponse<ProductResponse> fetchByProductCode(String productCode) {
+        Optional<Product> product = productRepository.findByProductCode(productCode);
+        if (product.isEmpty()) {
+            throw new ValidationException(1016, "product code not found..!", "product code not found..!");
+        }
+        ProductResponse productResponse = productMapper.productToProductRes(product.get());
+        return BaseResponse.success(productResponse);
     }
 
     @Override

@@ -9,10 +9,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     @Mapping(source = "createdAt", target = "orderDate")
-    @Mapping(source = "status", target = "orderStatus")
     OrderRes entityToOrderRes(Order order);
 
     @Mapping(source = "createdAt", target = "orderDate")
-    @Mapping(source = "status", target = "status")
     OrderResponse entityToOrderResponse(Order order);
 }

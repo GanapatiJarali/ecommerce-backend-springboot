@@ -9,7 +9,6 @@ import org.ganapati.project.ecommerce.repository.*;
 import org.ganapati.project.ecommerce.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -33,16 +32,18 @@ public class CommonService {
 
 
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     private final CacheService cacheService;
 
     @Autowired
-    public CommonService(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository, AddressRepository addressRepository, OrderRepository orderRepository, CacheService cacheService) {
+    public CommonService(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository, AddressRepository addressRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, CacheService cacheService) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.addressRepository = addressRepository;
         this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
         this.cacheService = cacheService;
     }
 
@@ -82,18 +83,34 @@ public class CommonService {
         return addressRepository.findById(addressId).orElseThrow(() -> new ValidationException(4000, "Address not found..!", "Address not found..!"));
     }
 
-    public Optional<Order> fetchOrderByOrderIdAndUser(String orderId, User user) {
-        return orderRepository.findByOrderIdAndUser(orderId, user);
+    public Optional<Order> fetchOrderByOrderGroupIdAndUser(String orderId, User user) {
+        return orderRepository.findByOrderGroupIdAndUser(orderId, user);
     }
 
     public Optional<Order> fetchOrderByOrderId(String orderId) {
-        return orderRepository.findByOrderId(orderId);
+        return orderRepository.findByOrderGroupId(orderId);
     }
 
     public void roleAccessValidation(List<String> apiRoleAccess, List<String> rolesJwtToken) {
-        boolean rolesMatched = apiRoleAccess.stream().anyMatch(res -> rolesJwtToken.contains(res));
+        boolean rolesMatched = apiRoleAccess.stream().anyMatch(rolesJwtToken::contains);
         if (!rolesMatched) {
             throw new ValidationException(1013, "UnAuthorization for operation..!", "UnAuthorization for operation");
         }
+    }
+
+    public OrderItem fetchByOrderItemId(String orderItemId) {
+        return orderItemRepository.findByOrderItemId(orderItemId).orElseThrow(() -> new ValidationException(6001, "OrderItem not found..! ", "OrderItem not found..! "));
+    }
+
+    public Order fetchByOrderId(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(() -> new ValidationException(6001, "OrderItem not found..! ", "OrderItem not found..! "));
+    }
+
+    public List<Order> fetchOrderByUserId(Long userId) {
+        return orderRepository.findByUser_Id(userId);
+    }
+
+    public Optional<Order> fetchOrderByOrderGroupId(String orderGroupId) {
+        return orderRepository.findByOrderGroupId(orderGroupId);
     }
 }

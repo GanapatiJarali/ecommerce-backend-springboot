@@ -1,6 +1,6 @@
 package org.ganapati.project.ecommerce.enums;
 
-public enum OrderStatus {
+public enum OrderItemStatus {
     CREATED,
     CONFIRMED,
     SHIPPED,

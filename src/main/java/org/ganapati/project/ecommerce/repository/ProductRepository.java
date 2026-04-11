@@ -16,6 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByNameAndStatus(String name, boolean status);
 
+    Optional<Product> findByProductCode(String productCode);
+
     @Query(
             "SELECT p FROM Product p " +
                     "WHERE (:categoryId IS NULL OR p.category.id = :categoryId) " +

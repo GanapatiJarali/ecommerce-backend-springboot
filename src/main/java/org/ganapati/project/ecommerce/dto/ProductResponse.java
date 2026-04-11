@@ -9,4 +9,5 @@ public class ProductResponse {
     private Integer stock;
     private boolean status;
     private Integer categoryId;
+    private String productCode;
 }

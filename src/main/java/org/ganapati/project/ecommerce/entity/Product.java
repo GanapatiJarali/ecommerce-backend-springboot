@@ -13,6 +13,8 @@ public class Product extends BaseEntity {
     private Long id;
     private String name;
     private Double price;
+    @Column(name = "product_code", unique = true)
+    private String productCode;
     private Integer stock;
     private boolean status;
     @ManyToOne(fetch = FetchType.EAGER)

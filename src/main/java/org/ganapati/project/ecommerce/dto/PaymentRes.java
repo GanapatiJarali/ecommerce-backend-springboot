@@ -1,30 +1,20 @@
-package org.ganapati.project.ecommerce.entity;
-
+package org.ganapati.project.ecommerce.dto;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import org.ganapati.project.ecommerce.enums.PaymentStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-@Entity
 @Data
-@Table(name = "payments")
-public class Payment extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PaymentRes {
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "orderId")
-    private Order order;
+    private Long orderId;
     private String paymentMode; // CARD, UPI, NET_BANKING
     private BigDecimal amount;
-
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
-
     private String transactionId;
-
+    private LocalDateTime createdAt;
 }
-

@@ -4,6 +4,7 @@ import org.ganapati.project.ecommerce.common.BaseResponse;
 import org.ganapati.project.ecommerce.dto.PageResponse;
 import org.ganapati.project.ecommerce.dto.ProductRequest;
 import org.ganapati.project.ecommerce.dto.ProductResponse;
+import org.ganapati.project.ecommerce.service.ProductService;
 import org.ganapati.project.ecommerce.service.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductService productService;
 
     @PostMapping
     public ResponseEntity<BaseResponse<ProductResponse>> addProduct(@RequestBody ProductRequest product) {
@@ -38,11 +39,17 @@ public class ProductController {
         return ResponseEntity.ok(productService.fetchByProductId(id));
     }
 
+    @GetMapping("/code/{productCode}")
+    public ResponseEntity<BaseResponse<ProductResponse>> fetchProductByProductCode(@PathVariable(name = "productCode") String productCode) {
+        return ResponseEntity.ok(productService.fetchByProductCode(productCode));
+    }
+
     // TODO Pending
     @PutMapping
     public ResponseEntity<BaseResponse<ProductResponse>> updateProduct(@RequestBody ProductRequest product) {
         return ResponseEntity.ok(productService.updateProduct(product));
     }
+    //TODO  product search api Pending ,due to the QueryDsl support need to implement.
 
 }
 

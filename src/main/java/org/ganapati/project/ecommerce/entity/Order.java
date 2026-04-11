@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.ganapati.project.ecommerce.enums.OrderStatus;
 import org.ganapati.project.ecommerce.enums.PaymentStatus;
 
 import java.math.BigDecimal;
@@ -28,7 +27,8 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    private String orderId;
+    @Column(unique = true)
+    private String orderGroupId;
 
     // Shipping address snapshot
     @ManyToOne(fetch = FetchType.EAGER)
@@ -37,16 +37,9 @@ public class Order extends BaseEntity {
 
     // Total amount calculated on server
     private BigDecimal totalAmount;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
     private String paymentMode; // COD, UPI, CARD
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<OrderItem> orderItems;
-    private String reason;
 }
