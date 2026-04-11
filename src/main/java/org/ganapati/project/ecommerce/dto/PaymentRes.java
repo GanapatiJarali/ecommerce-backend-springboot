@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class PaymentRes {
     private Long id;
-    private String orderGroupId;
+    private Long orderId;
     private String paymentMode; // CARD, UPI, NET_BANKING
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)

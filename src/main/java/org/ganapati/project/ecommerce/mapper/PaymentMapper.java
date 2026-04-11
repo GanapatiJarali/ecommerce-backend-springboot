@@ -4,6 +4,7 @@ import org.ganapati.project.ecommerce.dto.PaymentRes;
 import org.ganapati.project.ecommerce.dto.PaymentResponse;
 import org.ganapati.project.ecommerce.entity.Payment;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface PaymentMapper {
     PaymentResponse paymentToPaymentResponse(Payment payment);
 
+    @Mapping(source = "order.id", target = "orderId")
     PaymentRes paymentToPaymentRes(Payment payment);
+
     List<PaymentRes> paymentToPaymentResList(List<Payment> payment);
 }
