@@ -11,9 +11,7 @@ and order lifecycle management.
 - *Mapping:* MapStruct
 - *Containerization:* Docker
 - Implemented unit testing using JUnit 5 and Mockito
-- Wrote
-- **14+ test cases** 
-- covering:
+   Wrote **14+ test cases**covering:
     - Service layer logic
     - Validation scenarios
     - Exception handling
