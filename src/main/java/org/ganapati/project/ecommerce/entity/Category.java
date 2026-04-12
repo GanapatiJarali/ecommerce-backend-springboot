@@ -18,7 +18,7 @@ public class Category {
     private boolean status;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private LocalDateTime createdBy;
-    private LocalDateTime updatedBy;
+    private String createdBy;
+    private String updatedBy;
 
 }

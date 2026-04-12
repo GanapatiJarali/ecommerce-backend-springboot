@@ -71,7 +71,7 @@ public class CommonService {
     }
 
     public Product findByProductNameAndStatus(String productName, boolean status) {
-        return productRepository.findByNameAndStatus(productName.toLowerCase(), status).orElseThrow(() -> new ValidationException(2001, "Product Not found..!", "Product Not found..!"));
+        return productRepository.findByNameAndStatus(productName.toLowerCase(), status).orElseThrow(() -> new ValidationException(2002, "Product Not found..!", "Product Not found..!"));
     }
 
     public Optional<Cart> fetchProductWithUserCart(User user, Product product) {

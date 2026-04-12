@@ -1,4 +1,3 @@
-# Use official OpenJDK 21 image
 FROM eclipse-temurin:21-jdk
 
 # Set working directory
@@ -8,7 +7,8 @@ WORKDIR /app
 COPY target/e-commerce-application.jar e-commerce-application.jar
 
 # Expose port
-EXPOSE 8080
+EXPOSE 8090
 
 # Run the jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "e-commerce-application.jar"]
+
