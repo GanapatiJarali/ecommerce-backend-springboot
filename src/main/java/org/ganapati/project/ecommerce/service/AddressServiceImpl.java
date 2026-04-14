@@ -11,6 +11,7 @@ import org.ganapati.project.ecommerce.dto.AddressResponse;
 import org.ganapati.project.ecommerce.dto.PageResponse;
 import org.ganapati.project.ecommerce.entity.Address;
 import org.ganapati.project.ecommerce.entity.User;
+import org.ganapati.project.ecommerce.enums.AddressType;
 import org.ganapati.project.ecommerce.mapper.AddressMapper;
 import org.ganapati.project.ecommerce.repository.AddressRepository;
 import org.ganapati.project.ecommerce.repository.UserRepository;
@@ -51,7 +52,6 @@ public class AddressServiceImpl implements AddressService {
             }
         }
         Address address = new Address();
-        address.setFullName(request.getFullName());
         address.setMobileNo(request.getMobileNo());
         address.setAddressLine1(request.getAddressLine1());
         address.setAddressLine2(request.getAddressLine2());
@@ -59,7 +59,7 @@ public class AddressServiceImpl implements AddressService {
         address.setState(request.getState());
         address.setCountry(request.getCountry());
         address.setPinCode(request.getPinCode());
-        address.setAddressType(request.getAddressType());
+        address.setAddressType(AddressType.valueOf(request.getAddressType()));
         address.setDefault(request.getDefaultAddress());
         address.setUser(user);
         log.info("saving the address: {} ", address);
@@ -116,9 +116,6 @@ public class AddressServiceImpl implements AddressService {
             }
         }
         Address address = commonService.findAddressByAddressId(addressId);
-        if (StringUtils.hasText(addressRequest.getFullName())) {
-            address.setFullName(addressRequest.getFullName());
-        }
         if (StringUtils.hasText(addressRequest.getMobileNo())) {
             address.setMobileNo(addressRequest.getMobileNo());
         }
@@ -141,7 +138,7 @@ public class AddressServiceImpl implements AddressService {
             address.setPinCode(addressRequest.getPinCode());
         }
         if (!ObjectUtils.isEmpty(addressRequest.getAddressType())) {
-            address.setAddressType(addressRequest.getAddressType());
+            address.setAddressType(AddressType.valueOf(addressRequest.getAddressType()));
         }
         addressRepository.save(address);
         return BaseResponse.success(null);
