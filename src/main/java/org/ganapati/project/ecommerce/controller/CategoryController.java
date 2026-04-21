@@ -33,6 +33,7 @@ public class CategoryController {
     }
 
     @PutMapping("/clear")
+    //redis cache clear
     public ResponseEntity<BaseResponse> clearResponse() {
         cacheService.clearAll();
         return new ResponseEntity<>(BaseResponse.success(null), HttpStatus.OK);
