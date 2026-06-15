@@ -1,27 +1,87 @@
-A production-oriented eCommerce backend built with Spring Boot 3.2.5 and Java 21,
-exposing REST APIs for user management, product catalog, shopping cart,
-and order lifecycle management.
+# E-Commerce Backend System
+
+A production-oriented eCommerce backend application built using Spring Boot 3.2.5 and Java 21. The system provides secure REST APIs for user management, product catalog management, shopping cart operations, order processing, and order lifecycle management.
+
+Designed using layered architecture principles with JWT-based authentication, Redis caching, PostgreSQL persistence, Docker containerization, and comprehensive unit testing to simulate real-world backend development practices.
+
+Domain Model:
+Core entities used in the system:
+
+User
+Role
+Address
+Category
+Product
+Cart
+Order
+OrderItem
+Payment
+Refund
 
 ## Tech Stack
+### Backend
+* Java 21
+* Spring Boot 3.2.5
+* Spring Security
+* Spring Data JPA
+* Hibernate
 
-- *Framework:* Spring Boot 3.2.5, Java 21
-- *Security:* Spring Security + JWT (stateless auth)
-- *Database:* PostgreSQL + Spring Data JPA / Hibernate
-- *Cache:* Redis
-- *Mapping:* MapStruct
-- *Containerization:* Docker
-- Implemented unit testing using JUnit 5 and Mockito
-   Wrote ** test cases** covering:
-    - Service layer logic
-    - Validation scenarios
-    - Exception handling
+### Database & Cache
+* PostgreSQL
+* Redis
 
-## Features
+### Authentication & Authorization
+* JWT (JSON Web Token)
+* Role-Based Access Control (ADMIN / USER)
 
-- User registration, login, and role-based access control (ADMIN / USER)
-- JWT-based stateless authentication
-- Product catalog with CRUD operations
-- Shopping cart management (add, update, remove items)
-- Order placement and order lifecycle tracking
-- Input validation with meaningful error responses
-- Redis caching for performance-sensitive reads
+### Testing
+* JUnit 5
+* Mockito
+
+### Tools & DevOps
+* Docker
+* Maven
+* MapStruct
+* Git
+
+## Key Features
+
+* User registration and authentication
+* JWT-based stateless security
+* Role-based authorization (Admin/User)
+* Product catalog management
+* Shopping cart management
+* Order placement and lifecycle tracking
+* Address management
+* Pagination and filtering support
+* Redis caching for performance optimization
+* Global exception handling
+* Request validation with meaningful error messages
+* DTO mapping using MapStruct
+* Dockerized application deployment
+
+## API Modules
+* Authentication
+* User Management
+* Address Management
+* Product Management
+* Category Management
+* Shopping Cart Management
+* Order Management
+* Administrative Operations
+
+## Testing
+Implemented unit testing using JUnit 5 and Mockito covering:
+
+* Service layer business logic
+* Validation scenarios
+* Exception handling
+* Authentication workflows
+
+## Future Enhancements
+
+* Product search using QueryDSL
+* Apache Kafka based notification service
+* Elasticsearch integration for advanced product search
+* CI/CD pipeline integration using Jenkins/GitHub Actions
+* Kubernetes deployment support
