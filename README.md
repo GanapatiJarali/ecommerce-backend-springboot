@@ -41,7 +41,6 @@ Refund
 ### Tools & DevOps
 * Docker
 * Maven
-* MapStruct
 * Git
 
 ## Key Features
