@@ -7,15 +7,15 @@ Designed using layered architecture principles with JWT-based authentication, Re
 Domain Model:
 Core entities used in the system:
 
-User
-Role
-Address
-Category
-Product
-Cart
-Order
-OrderItem
-Payment
+User,
+Role,
+Address,
+Category,
+Product,
+Cart,
+Order,
+OrderItem,
+Payment,
 Refund
 
 ## Tech Stack
